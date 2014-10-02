@@ -1,4 +1,7 @@
-# desc "Explaining what the task does"
-# task :active_record_nearest_neighbor do
-#   # Task goes here
-# end
+desc "Explaining what the task does"
+namespace :active_record_nearest_neighbor do
+  task :setup => :environment do
+    Rails.logger.info("hey there!")
+  end
+end
+
