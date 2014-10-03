@@ -4,36 +4,38 @@ require 'active_record_nearest_neighbor/railtie' if defined?(Rails)
 module ActiveRecordNearestNeighbor
   extend ActiveSupport::Concern
 
-  include do
+  included do
+
+    # ensure the lonlat attribute
+    before_save :set_lonlat!
 
     scope :bounding_box_close_to, lambda { |params|
       where(%{
         ST_DWithin(
-          #{self.table_name}.geom,
+          #{self.table_name}.lonlat,
           ST_GeographyFromText('SRID=4326;POINT(%f %f)'),
             %d
         ) 
-      } % [params[:longitude], params[:latitude], params[:distance_in_meters]])
+      } % [params[:longitude], params[:latitude], params[:distance]])
     }
 
     scope :k_nearest_neighbor_close_to, lambda { |params|
       order(%{
-          ST_GeographyFromText('SRID=4326;POINT('|| #{self.table_name}.longitude || ' ' || #{self.table_name}.latitude || ')')::geometry <-> ST_GeographyFromText('SRID=4326;POINT(%f %f)')::geometry
+        ST_GeographyFromText('SRID=4326;POINT('|| #{self.table_name}.longitude || ' ' || #{self.table_name}.latitude || ')')::geometry <-> ST_GeographyFromText('SRID=4326;POINT(%f %f)')::geometry
       } % [params[:longitude], params[:latitude]])
     }
 
-    # ensure the geom attribute
-    before_save do
-      self.geom = "POINT(#{self.longitude} #{self.latitude})"
-    end
+  end
 
+  def set_lonlat!
+    self.lonlat = "POINT(#{self.longitude} #{self.latitude})"
   end
 
   module ClassMethods
 
     def close_to(longitude, latitude, options={})
       method = options[:method] || :bounding_box
-      scope = "#{options[:method]}_close_to".to_sym
+      scope = "#{method}_close_to".to_sym
 
       options[:longitude] = longitude
       options[:latitude] = latitude
