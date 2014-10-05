@@ -23,7 +23,7 @@ end}
     puts "generated migration: #{file_name}"
   end
 
-  desc "Create a new table with latitude, longitude, lonlat (point type), and a spatial index for lonlat" 
+  desc "Add columns to existing table: latitude, longitude, lonlat (point type), and a spatial index for lonlat" 
   task :add_columns, [:table_name] do |task, args|
     timestamp  = Time.now.strftime("%Y%m%d%H%M%S")
     table_name = args[:table_name]
