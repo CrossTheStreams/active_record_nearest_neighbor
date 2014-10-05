@@ -13,6 +13,7 @@ gemspec
 # To use debugger
 # gem 'debugger'
 group :development, :test do
+  gem 'rails'
   gem 'rspec-rails' 
   gem 'pry-rails'
   gem 'pg'

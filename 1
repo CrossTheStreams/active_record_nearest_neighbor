@@ -50,6 +50,7 @@ class ActiveRecord::Base
     def set_lonlat!
       self.lonlat = "POINT(#{self.longitude} #{self.latitude})"
     end
+
     
   end
 end

@@ -2,8 +2,9 @@ PATH
   remote: .
   specs:
     active_record_nearest_neighbor (0.0.1)
+      activerecord (>= 4.0.0)
       activerecord-postgis-adapter
-      rails (~> 4.1.1)
+      activesupport (>= 4.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -127,4 +128,5 @@ DEPENDENCIES
   nyan-cat-formatter
   pg
   pry-rails
+  rails
   rspec-rails

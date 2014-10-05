@@ -12,13 +12,7 @@ ActiveRecord::Base.establish_connection(
 )
 
 class Point < ActiveRecord::Base
-  include ActiveRecordNearestNeighbor
-  before_save :set_lonlat!
-
-  def set_lonlat!
-    self.lonlat = "POINT(#{longitude} #{latitude})"
-  end
-
+  include NearestNeighbor
 end
 
 TEST_COOR = [
