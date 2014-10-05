@@ -4,6 +4,7 @@ describe ActiveRecordNearestNeighbor do
 
   let(:lat) { REF_LAT }
   let(:lng) { REF_LNG }
+  let(:point) { Point.first }
   let(:distance) { 1000 }
 
   subject do
@@ -31,16 +32,32 @@ describe ActiveRecordNearestNeighbor do
   end
 
   describe "::close_to" do
-    it "defaults to using the ::bounding_box_close_to scope" do
-      expect(subject).to receive(:bounding_box_close_to) 
-      subject.close_to(lng, lat, distance:  distance)
-    end
-    context "when given the k_nearest_neighbor method option" do
-      it "uses the k_nearest_neighbor_close_to scope" do
-        expect(subject).to receive(:k_nearest_neighbor_close_to) 
-        subject.close_to(lng, lat, {distance:  distance, method: :k_nearest_neighbor})
+    context "when it receives an ActiveRecord object and options hash" do
+      it "defaults to using the ::bounding_box_close_to scope" do
+        expect(subject).to receive(:bounding_box_close_to) 
+        subject.close_to(point, distance: distance)
+      end
+      context "when given the k_nearest_neighbor method option" do
+        it "uses the k_nearest_neighbor_close_to scope" do
+          expect(subject).to receive(:k_nearest_neighbor_close_to) 
+          subject.close_to(point, distance: distance, method: :k_nearest_neighbor)
+        end
       end
     end
+
+    context "when it receives latitude, longitude, options hash" do
+      it "defaults to using the ::bounding_box_close_to scope" do
+        expect(subject).to receive(:bounding_box_close_to) 
+        subject.close_to(lng, lat, distance:  distance)
+      end
+      context "when given the k_nearest_neighbor method option" do
+        it "uses the k_nearest_neighbor_close_to scope" do
+          expect(subject).to receive(:k_nearest_neighbor_close_to) 
+          subject.close_to(lng, lat, {distance:  distance, method: :k_nearest_neighbor})
+        end
+      end
+    end
+
   end
 
 end
