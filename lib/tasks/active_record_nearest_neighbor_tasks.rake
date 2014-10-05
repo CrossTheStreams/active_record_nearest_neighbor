@@ -1,6 +1,7 @@
 require 'pry'
-desc "Create a new table with latitude, longitude, lonlat (point type), and a spatial index for lonlat" 
+
 namespace :nearest_neighbor do
+  desc "Create a new table with latitude, longitude, lonlat (point type), and a spatial index for lonlat" 
   task :create, [:table_name] do |task, args|
     timestamp  = Time.now.strftime("%Y%m%d%H%M%S")
     table_name = args[:table_name]
@@ -21,6 +22,8 @@ end}
     file.close
     puts "generated migration: #{file_name}"
   end
+
+  desc "Create a new table with latitude, longitude, lonlat (point type), and a spatial index for lonlat" 
   task :add_columns, [:table_name] do |task, args|
     timestamp  = Time.now.strftime("%Y%m%d%H%M%S")
     table_name = args[:table_name]
