@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ActiveRecordNearestNeighbor do
+describe ActiveRecord::Base::NearestNeighbor do
 
   let(:lat) { REF_LAT }
   let(:lng) { REF_LNG }

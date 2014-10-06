@@ -1,4 +1,4 @@
 class Point < ActiveRecord::Base
-  include ActiveRecordNearestNeighbor
+  include NearestNeighbor
 
 end

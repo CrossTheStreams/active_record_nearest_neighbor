@@ -17,7 +17,8 @@ namespace :nearest_neighbor do
     end
   end
 end}
-    file = File.open("./db/migrate/#{timestamp}_create_#{table_name}.rb","w+")
+    file_name = "./db/migrate/#{timestamp}_create_#{table_name}.rb"
+    file = File.open(file_name,"w+")
     file.write(migration)
     file.close
     puts "generated migration: #{file_name}"

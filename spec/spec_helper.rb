@@ -1,5 +1,3 @@
-require 'pry'
-require 'rails'
 require 'active_record'
 require_relative '../lib/active_record_nearest_neighbor'
 
