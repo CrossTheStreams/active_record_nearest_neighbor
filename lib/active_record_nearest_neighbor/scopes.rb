@@ -3,7 +3,9 @@ module ActiveRecord::Base::NearestNeighbor::Scopes
   def bounding_box_close_to(params)
     latitude = params[:latitude]
     longitude = params[:longitude]
-    distance = params[:distance] 
+
+    # default of 10km
+    distance = params[:distance] || 10000
 
     where(%{ST_DWithin(points.lonlat, ST_GeographyFromText('SRID=4326;POINT(#{longitude} #{latitude})')::geometry, #{distance})}).
     order(%{ST_Distance(
@@ -31,10 +33,10 @@ module ActiveRecord::Base::NearestNeighbor::Scopes
           ST_Distance(
             closest_candidates.lonlat,
             ST_GeographyFromText('SRID=4326;POINT(#{longitude} #{latitude})')::geometry
-          );} 
+          )
+        LIMIT #{limit};} 
     )
   end
-
 
 
 end
