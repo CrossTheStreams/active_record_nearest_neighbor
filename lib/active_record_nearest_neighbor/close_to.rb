@@ -1,35 +1,36 @@
 module ActiveRecord::Base::NearestNeighbor::CloseTo
 
   def close_to(longitude_or_object, longitude_or_latitude_or_options={}, options={})
+    scope_method = :bounding_box
+    scope_params = {}
+
     if longitude_or_object.class.ancestors.include?(ActiveRecord::Base)  
       # We are using an object as the point reference
       object = longitude_or_object
       options = longitude_or_latitude_or_options
-      method = options[:method] || :bounding_box
-      close_to_with_object(method, object, options)
+
+      scope_method = options[:method] || scope_method
+      scope_params = {id: options[:id], distance: options[:distance], limit: options[:limit]}.
+      merge(longitude: object.longitude, latitude: object.latitude, id: object.id)
     else
       # We are using longitude and latitude
       longitude = longitude_or_object
       latitude = longitude_or_latitude_or_options
-      method = options[:method] || :bounding_box
 
-      close_to_with_longitude_and_latitude(method, longitude, latitude, options) 
+      scope_method = options[:method] || scope_method
+
+      scope_params = {id: options[:id], distance: options[:distance], limit: options[:limit]}.
+      merge(longitude: longitude, latitude: latitude)
     end
+
+    close_to_with_scope(scope_method, scope_params)
   end
 
   private
 
-  def close_to_with_object(scope_method, object, options={})
+  def close_to_with_scope(scope_method, params={})
     scope = "#{scope_method}_close_to".to_sym
-    params = options.merge(latitude: object.latitude, longitude: object.longitude)
     self.send(scope,params) 
   end
-
-  def close_to_with_longitude_and_latitude(scope_method, longitude, latitude, options={})
-    scope = "#{scope_method}_close_to".to_sym
-    params = options.merge(longitude: longitude, latitude: latitude)
-    self.send(scope,params)
-  end
-
 
 end

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    active_record_nearest_neighbor (0.0.19)
+    active_record_nearest_neighbor (0.0.6)
       activerecord (>= 4.0.0)
       activerecord-postgis-adapter
       activesupport (>= 4.0.0)

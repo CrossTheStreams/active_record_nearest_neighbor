@@ -2,14 +2,12 @@ require 'spec_helper'
 
 describe ActiveRecord::Base::NearestNeighbor do
 
-  let(:lat) { REF_LAT }
-  let(:lng) { REF_LNG }
   let(:point) { Point.first }
-  let(:distance) { 1000 }
-
-  subject do
-    Point
-  end
+  let(:all_points) { Point.all }
+  let(:lat) { point.latitude }
+  let(:lng) { point.longitude }
+  let(:distance) { 2000 }
+  let(:limit) { nil }
  
   before do
     ensure_test_data!
@@ -19,42 +17,134 @@ describe ActiveRecord::Base::NearestNeighbor do
     purge_test_data! 
   end
 
-  describe "::bounding_box_close_to" do    
-    it "finds returns points that are params[:distance].to_i away from a location" do
-      expect(subject.bounding_box_close_to(longitude: lng, latitude: lat, distance: distance).length).to eq(9)
+  shared_examples "orders query results by proximity" do
+    it "returns points in the correct order" do
+      (subject.length - 1).times do |i|
+        next_point = (subject[i + 1])
+        expect(subject[i].id).to be < next_point.id
+      end
     end
+  end
+
+  shared_examples "excluding object parameter" do
+    it "does not include the point with the id" do
+      expect(subject).to_not include(point)
+    end
+  end
+
+  shared_examples "calling the specified scope with params" do |scope_method|
+    it "calls the scope method #{scope_method}" do
+      expect(Point).to receive(scope_method).with(expected_params)
+      subject
+    end
+  end
+
+  shared_examples "returning all proximate points" do
+    it "returns all points" do
+      expect(subject.length).to eq(all_points.length)
+    end 
+  end
+
+  shared_examples "includes expected points" do |expected_length|
+    it "includes #{expected_length} points" do
+      expect(subject.length).to eq(expected_length)
+    end  
+  end
+
+  describe "::bounding_box_close_to" do
+
+    subject do
+      Point.bounding_box_close_to(longitude: lng, latitude: lat, distance: distance, limit: limit)
+    end
+
+    context "when bounding box includes all points" do
+      include_examples "returning all proximate points"
+    end
+
+    context "when bounding box excludes points" do
+      let(:distance) { 1000 }
+      include_examples "includes expected points", 7 
+    end
+
+    context "when a limit of 5 is given" do
+      let(:limit) { 5 }
+      include_examples "includes expected points", 5
+    end
+
+    include_examples "orders query results by proximity"
+
+    context "when an id is given" do
+      subject do
+        Point.bounding_box_close_to(longitude: lng, latitude: lat, distance: distance, id: point.id)
+      end
+      include_examples "excluding object parameter"
+    end
+
   end
 
   describe "::k_nearest_neighbor_close_to" do
-    it "returns points, in order of proximity to a location" do
-      expect(subject.k_nearest_neighbor_close_to(longitude: lng, latitude: lat, distance: distance).length).to eq(9) 
+    subject do
+      Point.k_nearest_neighbor_close_to(longitude: lng, latitude: lat, distance: distance, limit: limit)
     end
+
+    include_examples "returning all proximate points"
+
+    include_examples "orders query results by proximity"
+
+    context "when a limit of 5 is given" do
+      let(:limit) { 5 }
+      include_examples "includes expected points", 5
+    end
+
+    context "when an id is given" do
+      subject do
+        Point.k_nearest_neighbor_close_to(longitude: lng, latitude: lat, id: point.id)
+      end
+      include_examples "excluding object parameter"
+    end
+
   end
 
   describe "::close_to" do
+    let(:expected_params) do
+      {latitude: point.latitude, longitude: point.longitude, distance: distance, id: point.id, limit: limit}
+    end
+
     context "when it receives an ActiveRecord object and options hash" do
-      it "defaults to using the ::bounding_box_close_to scope" do
-        expect(subject).to receive(:bounding_box_close_to) 
-        subject.close_to(point, distance: distance)
+
+      subject do
+        Point.close_to(point, distance: distance)
       end
+
+      include_examples "calling the specified scope with params", :bounding_box_close_to 
+
       context "when given the k_nearest_neighbor method option" do
-        it "uses the k_nearest_neighbor_close_to scope" do
-          expect(subject).to receive(:k_nearest_neighbor_close_to) 
-          subject.close_to(point, distance: distance, method: :k_nearest_neighbor)
+
+        subject do
+          Point.close_to(point, distance: distance, method: :k_nearest_neighbor)
         end
+
+        include_examples "calling the specified scope with params", :k_nearest_neighbor_close_to
+
       end
     end
 
     context "when it receives latitude, longitude, options hash" do
-      it "defaults to using the ::bounding_box_close_to scope" do
-        expect(subject).to receive(:bounding_box_close_to) 
-        subject.close_to(lng, lat, distance:  distance)
+      let(:expected_params) do
+        {latitude: point.latitude, longitude: point.longitude, distance: distance, id: nil, limit: limit}
+      end 
+
+      subject do
+        Point.close_to(lng, lat, distance:  distance)
       end
+
+      include_examples "calling the specified scope with params", :bounding_box_close_to
+
       context "when given the k_nearest_neighbor method option" do
-        it "uses the k_nearest_neighbor_close_to scope" do
-          expect(subject).to receive(:k_nearest_neighbor_close_to) 
-          subject.close_to(lng, lat, {distance:  distance, method: :k_nearest_neighbor})
+        subject do
+          Point.close_to(lng, lat, distance:  distance, method: :k_nearest_neighbor)
         end
+        include_examples "calling the specified scope with params", :k_nearest_neighbor_close_to
       end
     end
 
