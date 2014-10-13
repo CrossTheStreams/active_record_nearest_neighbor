@@ -46,11 +46,11 @@ You can use `close_to` in different ways to perform the nearest neighbor query t
     # Buildings close to the Empire State Building
     latitude = 40.748441
     longitude = -73.985664
-    Building.close_to(longitude, latitude)
+    Building.close_to(longitude, latitude, distance: 500)
   ```
 If you want to know what's close to your geospatial Active Record objects, simply pass the object to `close_to` instead of longitude and latitude!
   ```
-    # Buildings close to the space needle
+    # Buildings close to the Space Needle 
     space_needle = Building.find_by_name("Space Needle")
     Building.close_to(space_needle, distance: 500)
   ```
@@ -62,9 +62,7 @@ Maybe you need to avoid a bounding box? No sweat! Provide the `:k_nearest_neighb
   ```
 You can provide `close_to` with a `limit` option if you know a limit ahead of time:
   ```
-    # Buildings close to the Empire State Building
-    latitude = 40.748441
-    longitude = -73.985664
-    Building.close_to(longitude, latitude, distance: 500, limit: 5)
+    # The 5 closest roller coasters to Los Angeles 
+    RollerCoaster.close_to(-118.243685, 34.052234, method: :k_nearest_neighbor, limit: 5)
   ```
 
