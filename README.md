@@ -1,6 +1,11 @@
 # Active Record Nearest Neighbor
 
-Easy, performant geospatial nearest-neighbor searches with ActiveRecord, leveraging PostGIS.
+Easy, high performance geospatial nearest-neighbor searches with ActiveRecord, leveraging PostGIS.
+
+Dependencies:
+1. [PostgreSQL](http://www.postgresql.org/)
+2. [ActiveRecord](https://github.com/rails/rails/tree/master/activerecord)
+3. [PostGIS ActiveRecord Adapter gem](https://github.com/rgeo/activerecord-postgis-adapter) 
 
 In your Gemfile:
 
@@ -12,7 +17,7 @@ The central feature of this gem is a scope method for your Active Record models,
 
 Active Record Nearest Neighbor provides you with several helpful rake tasks to get you started:
 
-1. If you don't yet have the PostGIS extension added to your PostGreSQL database:
+1. If you don't yet have the PostGIS extension added to your PostgreSQL database:
 
   ```
     rake db:gis:setup
