@@ -66,7 +66,7 @@ Maybe you need to avoid a bounding box? No sweat! Provide the `:k_nearest_neighb
   ```
     # Volcanoes, ordered by proximity to Mount Rainier 
     mount_rainier = Volcanoe.find_by_name("Mount Rainier")
-    Volcanoe.close_to(mount_rainier, method: :k_nearest_neighbor)
+    Volcano.close_to(mount_rainier, method: :k_nearest_neighbor)
   ```
 You can provide `close_to` with a `limit` option if you know a limit ahead of time:
   ```
