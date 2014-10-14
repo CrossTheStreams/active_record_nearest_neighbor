@@ -25,30 +25,39 @@ Active Record Nearest Neighbor provides you with several helpful rake tasks to g
   ```
     rake db:gis:setup
   ```
+
 2. To generate a migration to create a new table with geospatial columns:
+
   ```
     rake nearest_neighbor:create[table_name]
   ```
+
 3. To generate a migration to add geospatial columns and point index to a table that you already have:
 
   ```
     rake nearest_neighbor:add_columns[table_name]
   ```
+
 4. To add `close_by` to your model class, include `NearestNeighbor`:
+
   ```
      class Building < ActiveRecord::Base
        include NearestNeighbor
 
      end
   ```
+
 5. Now you're set!
+
   ```
     # Buildings close to the Empire State Building
     latitude = 40.748441
     longitude = -73.985664
     Building.close_to(longitude, latitude)
   ```
+
 You can use `close_to` in different ways to perform the nearest neighbor query that you want. By default, `close_to` will use a bounding box of 10 kilometers. Set the `:distance` option (uses meters) if you want to change the size of this bounding box.
+
 
   ```
     # Buildings within 500 meters from the Empire State Building
@@ -56,21 +65,26 @@ You can use `close_to` in different ways to perform the nearest neighbor query t
     longitude = -73.985664
     Building.close_to(longitude, latitude, distance: 500)
   ```
+
 If you want to know what's close to your geospatial Active Record objects, simply pass the object to `close_to` instead of longitude and latitude!
+
   ```
     # Buildings within 500 meters from the Space Needle 
     space_needle = Building.find_by_name("Space Needle")
     Building.close_to(space_needle, distance: 500)
   ```
+
 Maybe you need to avoid a bounding box? No sweat! Provide the `:k_nearest_neighbor` option to `close_to` and `close_to` will avoid a bounding box. This is great for nearest neighbor searches with data of greatly varying distances and/or datasets that aren't significantly large. NOTE: This will have slower performance with larger datasets.
+
   ```
     # Volcanoes, ordered by proximity to Mount Rainier 
     mount_rainier = Volcanoe.find_by_name("Mount Rainier")
     Volcano.close_to(mount_rainier, method: :k_nearest_neighbor)
   ```
+
 You can provide `close_to` with a `limit` option if you know a limit ahead of time:
+
   ```
     # The 5 closest roller coasters to Los Angeles 
     RollerCoaster.close_to(-118.243685, 34.052234, method: :k_nearest_neighbor, limit: 5)
   ```
-
