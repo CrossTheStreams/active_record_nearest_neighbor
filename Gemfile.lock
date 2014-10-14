@@ -1,10 +1,10 @@
 PATH
   remote: .
   specs:
-    active_record_nearest_neighbor (0.1.0)
-      activerecord (~> 4.1.0)
+    active_record_nearest_neighbor (0.1.1)
+      activerecord (~> 4.1)
       activerecord-postgis-adapter
-      activesupport (~> 4.1.0)
+      activesupport (~> 4.1)
 
 GEM
   remote: https://rubygems.org/

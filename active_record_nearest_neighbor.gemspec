@@ -16,8 +16,8 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
 
-  s.add_dependency "activerecord", "~> 4.1.0"
-  s.add_dependency "activesupport", "~> 4.1.0"
-  s.add_dependency 'activerecord-postgis-adapter'
+  s.add_dependency "activerecord", "~> 4.1"
+  s.add_dependency "activesupport", "~> 4.1"
+  s.add_dependency 'activerecord-postgis-adapter', '~> 0'
 
 end
