@@ -4,7 +4,9 @@ Easy, high performance geospatial nearest-neighbor searches with ActiveRecord, l
 
 Dependencies:
 1. [PostgreSQL](http://www.postgresql.org/).
+
 2. [ActiveRecord](https://github.com/rails/rails/tree/master/activerecord).
+
 3. [PostGIS ActiveRecord Adapter gem](https://github.com/rgeo/activerecord-postgis-adapter).
 
 In your Gemfile:
