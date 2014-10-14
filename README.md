@@ -8,7 +8,7 @@ In your Gemfile:
   gem 'actice_record_nearest_neighbor'
 ```
 
-The central feature of this gem is a scope method for your Active Record models, `close_to`. With `close_to`, you can perform blazing fast and accurate nearest neighbor searches with PostGIS, without writing a line of geospatial SQL. All you need to do is add the appropriate geospatial columns add you're set!
+The central feature of this gem is a scope method for your Active Record models, `close_to`. With `close_to`, you can perform blazing fast and accurate nearest neighbor searches with PostGIS, without writing a line of geospatial SQL. All you need to do is add the appropriate geospatial columns, include a module, and you're set:
 
 Active Record Nearest Neighbor provides you with several helpful rake tasks to get you started:
 
