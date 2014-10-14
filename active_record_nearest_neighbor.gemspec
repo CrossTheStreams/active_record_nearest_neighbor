@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Andrew Hautau"]
   s.email       = ["arhautau@gmail.com"]
   s.homepage    = "https://github.com/CrossTheStreams/active_record_nearest_neighbor"
-  s.summary     = "A Rails/ActiveRecord plugin to easily add nearest neighbor geospatial queries with PostGIS and PostgreSQL."
-  s.description = "ActiveRecordNearestNeighbor adds methods to your ActiveRecord models to perform nearest neighbor searches, using different algorithms. The plugin also provides a rake task for generating migrations to add geospatial columns and indexes to your models."
+  s.summary     = "A Rails/Active Record plugin to easily add nearest neighbor geospatial queries with PostGIS and PostgreSQL."
+  s.description = "Active Record Nearest Neighbor adds scopes to your models to perform nearest neighbor queries with PostGIS and PostgreSQL. The plugin also provides rake tasks for generating migrations to create geospatial tables add/or geospatial columns and indexes to your existing tables."
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
