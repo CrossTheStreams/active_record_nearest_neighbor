@@ -26,7 +26,13 @@ Active Record Nearest Neighbor provides you with several helpful rake tasks to g
     rake db:gis:setup
   ```
 
-2. 
+2. In your config/database.yml file, change the adapater of your database to postgis:
+
+    ```
+      database: postgis
+    ```
+
+3. 
   1. To generate a migration to create a new table with geospatial columns:
 
     ```
@@ -39,7 +45,7 @@ Active Record Nearest Neighbor provides you with several helpful rake tasks to g
       rake nearest_neighbor:add_columns[table_name]
     ```
 
-3. To add `close_by` to your model class, include `NearestNeighbor`:
+4. To add `close_by` to your model class, include `NearestNeighbor`:
 
   ```
      class Building < ActiveRecord::Base
@@ -48,7 +54,7 @@ Active Record Nearest Neighbor provides you with several helpful rake tasks to g
      end
   ```
 
-4. Now you're set!
+5. Now you're set!
 
   ```
     # Buildings close to the Empire State Building
