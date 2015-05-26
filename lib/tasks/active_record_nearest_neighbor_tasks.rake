@@ -1,5 +1,3 @@
-require 'pry'
-
 namespace :nearest_neighbor do
   desc "Create a new table with latitude, longitude, lonlat (point type), and a spatial index for lonlat" 
   task :create, [:table_name] do |task, args|
