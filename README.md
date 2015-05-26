@@ -32,7 +32,7 @@ Active Record Nearest Neighbor provides you with several helpful rake tasks to g
       database: postgis
     ```
 
-3. Generate rake tasks to create a table or add columns:
+3. Generate a rake task to create a table or add columns:
 
   1. To generate a migration to create a new table with geospatial columns:
 
@@ -46,7 +46,9 @@ Active Record Nearest Neighbor provides you with several helpful rake tasks to g
       rake nearest_neighbor:add_columns[table_name]
     ```
 
-4. To add `close_by` to your model class, include `NearestNeighbor`:
+4. Run the generated migration with `$ rake db:migrate`
+
+5. To add `close_by` to your model class, include `NearestNeighbor`:
 
   ```
      class Building < ActiveRecord::Base
@@ -55,7 +57,7 @@ Active Record Nearest Neighbor provides you with several helpful rake tasks to g
      end
   ```
 
-5. Now you're set!
+6. Now you're set!
 
   ```
     # Buildings close to the Empire State Building
