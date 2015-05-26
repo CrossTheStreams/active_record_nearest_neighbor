@@ -13,7 +13,7 @@ Dependencies:
 In your Gemfile:
 
 ```
-  gem 'actice_record_nearest_neighbor'
+  gem 'active_record_nearest_neighbor'
 ```
 
 The central feature of this gem is a scope method for your Active Record models, `close_to`. With `close_to`, you can perform blazing fast and accurate nearest neighbor searches with PostGIS, without writing a line of geospatial SQL. All you need to do is add the appropriate geospatial columns, include a module, and you're set:
@@ -26,7 +26,14 @@ Active Record Nearest Neighbor provides you with several helpful rake tasks to g
     rake db:gis:setup
   ```
 
-2. 
+2. In your config/database.yml file, change the adapater of your database to postgis:
+
+    ```
+      database: postgis
+    ```
+
+3. Generate a rake task to create a table or add columns:
+
   1. To generate a migration to create a new table with geospatial columns:
 
     ```
@@ -39,7 +46,7 @@ Active Record Nearest Neighbor provides you with several helpful rake tasks to g
       rake nearest_neighbor:add_columns[table_name]
     ```
 
-3. To add `close_by` to your model class, include `NearestNeighbor`:
+4. To add `close_by` to your model class, include `NearestNeighbor`:
 
   ```
      class Building < ActiveRecord::Base
@@ -48,7 +55,7 @@ Active Record Nearest Neighbor provides you with several helpful rake tasks to g
      end
   ```
 
-4. Now you're set!
+5. Now you're set!
 
   ```
     # Buildings close to the Empire State Building
