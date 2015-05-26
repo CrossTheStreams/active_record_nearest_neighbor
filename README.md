@@ -32,7 +32,8 @@ Active Record Nearest Neighbor provides you with several helpful rake tasks to g
       database: postgis
     ```
 
-3. 
+3. Generate rake tasks to create a table or add columns:
+
   1. To generate a migration to create a new table with geospatial columns:
 
     ```
