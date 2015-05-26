@@ -1,7 +1,7 @@
 namespace :nearest_neighbor do
   desc "Create a new table with latitude, longitude, lonlat (point type), and a spatial index for lonlat" 
-  task :create, [:table_name] do |task, args|
-    timestamp  = Time.now.strftime("%Y%m%d%H%M%S")
+  task :create, [:table_name]  => :environment  do |task, args|
+    timestamp  = Time.zone.now.strftime("%Y%m%d%H%M%S")
     table_name = args[:table_name]
     class_name = table_name.split("_").map(&:capitalize).join
     migration = 
@@ -23,8 +23,8 @@ end}
   end
 
   desc "Add columns to existing table: latitude, longitude, lonlat (point type), and a spatial index for lonlat" 
-  task :add_columns, [:table_name] do |task, args|
-    timestamp  = Time.now.strftime("%Y%m%d%H%M%S")
+  task :add_columns, [:table_name]  => :environment do |task, args|
+    timestamp  = Time.zone.now.strftime("%Y%m%d%H%M%S")
     table_name = args[:table_name]
     class_name = table_name.split("_").map(&:capitalize).join
     migration = 
